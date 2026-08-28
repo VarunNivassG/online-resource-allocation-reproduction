@@ -1,0 +1,27 @@
+{
+  "frequency": {
+    "dataset_dir": "datasets",
+    "trials": 10,
+    "horizons": [100, 1000],
+    "m": 1,
+    "f_exponents": [0.3333333333, 0.5, 0.6666666667],
+    "distributions": ["uniform", "normal"],
+    "algorithms": ["algorithm1", "algorithm2", "first_order"]
+  },
+
+  "comparison": {
+    "dataset_dir": "datasets",
+    "trials": 10,
+    "horizons": [100, 1000],
+    "m": 5,
+    "f_exponent": 0.3333333333,
+    "distribution": "uniform",
+    "algorithms": [
+      "first_order",
+      "first_order_t13",
+      "lp_based",
+      "algorithm1",
+      "algorithm2"
+    ]
+  }
+}
