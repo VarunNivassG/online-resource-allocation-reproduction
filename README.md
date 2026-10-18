@@ -38,29 +38,48 @@ The implementation is deliberately organized so that the paper can be reproduced
 olp_repro/
 ├── configs/
 │   ├── smoke.json
-│   └── paper_scale.json
-├── datasets/                 # generated/reproducible synthetic instances
+│   ├── paper_scale.json
+│   ├── research_smoke.json
+│   ├── research_scale.json
+│   ├── research_supplementary.json
+│   └── research_remaining.json
+├── datasets/                  # generated/reproducible synthetic instances
 │   ├── uniform/
 │   └── normal/
 ├── docs/
-│   └── mathematical_map.md
-├── results/
+│   ├── mathematical_map.md
+│   ├── research_extension.md
+│   └── research_plot_guide.md
+├── results_research_smoke/     # smoke CSVs and figures 01–12
+├── results_research_supplementary/ # seed-level tables and figures 13–26
+├── results_research_complete/  # 29-file consolidated plot gallery/contact sheet
 ├── scripts/
 │   ├── run_smoke.py
-│   └── run_paper_scale.py
+│   ├── run_paper_scale.py
+│   ├── run_research_smoke.py
+│   ├── run_research_supplementary.py
+│   ├── render_missing_research_plots.py
+│   ├── run_remaining_research_plots.py
+│   └── build_research_plot_gallery.py
 ├── src/olp_repro/
-│   ├── __init__.py
 │   ├── algorithms.py
-│   ├── cli.py
-│   ├── distributions.py
+│   ├── adaptive_controller.py
+│   ├── adaptive_signals.py
+│   ├── change_detector.py
 │   ├── dual.py
-│   ├── experiment.py
-│   ├── metrics.py
-│   ├── plotting.py
-│   └── problem.py
+│   ├── nonstationary.py
+│   ├── risk.py
+│   ├── research.py
+│   ├── research_plots.py
+│   ├── supplementary.py
+│   ├── supplementary_plots.py
+│   ├── remaining_research.py
+│   └── remaining_research_plots.py
 ├── tests/
 │   ├── test_core.py
-│   └── test_distributions.py
+│   ├── test_distributions.py
+│   ├── test_adaptive_research.py
+│   └── test_remaining_research.py
 ├── pyproject.toml
 └── README.md
 ```
@@ -144,6 +163,45 @@ Extreme cases:
 - \(f=1\): LP-like \(O(\log T)\) behavior.
 - \(f=T\): first-order-like \(O(\sqrt T)\) behavior.
 
+## Research comparisons and visualizations
+
+Running `python scripts/run_research_smoke.py` generates comparison figures under
+`results_research_smoke/plots/` in addition to the original reproduction plots.
+The added comparisons include:
+
+- direct stationary regret comparison across the original baselines and adaptive methods;
+- measured runtime and actual LP-solver-call comparisons;
+- paired, same-seed adaptive-versus-fixed-frequency results across distribution shifts;
+- paired risk-aware-versus-adaptive comparisons for regret, reward, resource use, and guard rejections;
+- stationary resource-utilization comparisons.
+
+The original smoke configuration uses only two seeds. These figures validate the
+initial analysis pipeline and are not sufficient to establish statistical superiority.
+
+### Complete the missing research plots
+
+Run the dedicated supplementary study to add multi-seed plots for prefix regret and
+resource-utilization trajectories, change-detection quality versus shift magnitude,
+detection delay and false alarms, detector robustness under noisy telemetry, signal
+ablations, trigger-threshold sensitivity, risk-weight sensitivity, regret versus shift
+strength, and the matched compute-budget Pareto frontier. The run saves raw per-seed
+CSV tables so each figure can be reproduced without copying values from images.
+
+```bash
+python scripts/run_research_supplementary.py
+```
+
+The current checked-in supplementary outputs use 8 paired seeds, T=100, and m=3.
+That is a stronger diagnostic than the two-seed smoke run but remains exploratory;
+use more seeds and held-out validation/test instances before a paper claims superiority.
+The full supplementary sweep may take several minutes because it computes prefix
+hindsight LPs and runs multiple sensitivity/ablation experiments. If the CSVs exist
+and only the figure styling changes, rerender without rerunning experiments:
+
+```bash
+python scripts/render_missing_research_plots.py
+```
+
 ## Research extensions we can build on top
 
 Saved datasets can be loaded with `olp_repro.data_io.load_instance()` and are
@@ -165,3 +223,27 @@ This repository is intentionally modular. Natural next experiments include:
 ## Scope note
 
 This is a research reproduction, not a claim of bit-for-bit reproduction of the authors' original implementation. Random seeds, solver versions, hardware, and implementation details can change numerical results. The mathematical definitions and principal experimental settings are based on the supplied paper.
+
+## Complete research visualization suite
+
+The repository now includes a consolidated gallery of 29 image files covering figures 01–26 (the four trace-diagnostic views are separate images under Figure 05). See `results_research_complete/research_plots_contact_sheet.png` or `docs/research_plot_guide.md` for the full figure index.
+
+Run the broader supplementary sweeps and render Figures 13–24 with:
+
+```bash
+python scripts/run_research_supplementary.py
+```
+
+If the supplementary CSV tables already exist and some plots need to be re-rendered, use:
+
+```bash
+python scripts/render_missing_research_plots.py
+```
+
+Run the additional multi-seed horizon-scaling and risk-tail experiments (Figures 25–26) with:
+
+```bash
+python scripts/run_remaining_research_plots.py
+```
+
+The additional study uses 10 seeds per horizon and 24 seeds per risk scenario/weight. The earlier smoke figures use two seeds and are only pipeline checks; the supplementary and additional studies are still pilot-scale and should not be described as conclusive statistical evidence.

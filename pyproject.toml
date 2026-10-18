@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "olp-repro"
-version = "0.1.0"
+version = "0.2.0"
 description = "Research reproduction of a wait-less hybrid LP re-solving and first-order OLP framework"
 requires-python = ">=3.10"
 dependencies = [
@@ -22,3 +22,7 @@ olp-repro = "olp_repro.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

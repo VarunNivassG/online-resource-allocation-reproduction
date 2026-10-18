@@ -1,0 +1,23 @@
+{
+  "horizons": [50, 100],
+  "trials": 2,
+  "m": 2,
+  "stationary_distributions": ["uniform"],
+  "nonstationary_base_distribution": "uniform",
+  "solve_budget_fractions": [0.05, 0.10],
+  "nonstationary_scenarios": ["abrupt_resource", "abrupt_reward", "gradual"],
+  "change_fraction": 0.5,
+  "shift_strength": 0.5,
+  "risk_weight": 0.25,
+  "lp_based_max_T": 100,
+  "adaptive": {
+    "threshold": 0.42,
+    "warmup": 4,
+    "min_interval": 2,
+    "max_interval": null,
+    "signal_window": 25,
+    "change_window": null,
+    "change_threshold": 3.0,
+    "weights": [0.40, 0.35, 0.25]
+  }
+}

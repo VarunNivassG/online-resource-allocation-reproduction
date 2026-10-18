@@ -2,9 +2,12 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import os
 
 root = Path(__file__).resolve().parents[1]
 config = root / "configs" / "paper_scale.json"
+env = os.environ.copy()
+env["PYTHONPATH"] = str(root / "src") + os.pathsep + env.get("PYTHONPATH", "")
 
 frequency_out = root / "results_full" / "paper_frequency.csv"
 frequency_plot = root / "results_full" / "paper_frequency"
@@ -20,7 +23,7 @@ def run_stage(name, command):
 
     start = time.perf_counter()
 
-    result = subprocess.run(command)
+    result = subprocess.run(command, cwd=root, env=env)
 
     elapsed = time.perf_counter() - start
 

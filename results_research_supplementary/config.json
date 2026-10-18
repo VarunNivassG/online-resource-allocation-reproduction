@@ -1,0 +1,93 @@
+{
+  "T": 100,
+  "trials": 8,
+  "m": 3,
+  "distribution": "uniform",
+  "change_fraction": 0.5,
+  "base_shift_strength": 0.5,
+  "budget_fraction": 0.08,
+  "budget_fractions": [
+    0.02,
+    0.05,
+    0.08,
+    0.12,
+    0.18
+  ],
+  "shift_strengths": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "shift_scenarios": [
+    "abrupt_resource",
+    "abrupt_reward",
+    "abrupt_combined",
+    "gradual"
+  ],
+  "trajectory_scenarios": [
+    "abrupt_resource",
+    "abrupt_reward",
+    "abrupt_combined",
+    "gradual"
+  ],
+  "ablation_scenarios": [
+    "stationary",
+    "abrupt_resource",
+    "abrupt_combined"
+  ],
+  "sensitivity_scenarios": [
+    "stationary",
+    "abrupt_resource",
+    "abrupt_combined",
+    "gradual"
+  ],
+  "thresholds": [
+    0.15,
+    0.25,
+    0.35,
+    0.42,
+    0.55,
+    0.7
+  ],
+  "risk_weights": [
+    0.0,
+    0.05,
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "risk_scenarios": [
+    "stationary",
+    "abrupt_resource",
+    "abrupt_combined",
+    "gradual"
+  ],
+  "budget_scenarios": [
+    "stationary",
+    "abrupt_resource",
+    "abrupt_combined"
+  ],
+  "adaptive": {
+    "threshold": 0.42,
+    "warmup": 8,
+    "min_interval": 2,
+    "max_interval": null,
+    "signal_window": 25,
+    "change_window": null,
+    "change_threshold": 3.0,
+    "weights": [
+      0.4,
+      0.35,
+      0.25
+    ]
+  },
+  "detector_noise_levels": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ]
+}
